@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Timothy Collinson's Quick NPC Generator</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 1rem;
+            }
+
+            header {
+                display: flex;
+                justify-content: center;
+                padding: 1rem 0;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+
+            h3 {
+                text-align: center;
+            }
+
+            .page-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100vh;
+                width: 100vw;
+                background: #eee;
+            }
+
+            .content {
+                display: flex;
+                justify-content: space-between;
+                width: 50rem;
+                max-width: 50rem;
+                gap: 2rem;
+            }
+
+            #input-stat-parameters {
+                width: 80%;
+                padding: 1rem;
+                border: 1px solid grey;
+                border-radius: 1rem;
+            }
+
+            #output-npc-stats {
+                width: 20%;
+                padding: 1rem;
+                border: 1px solid grey;
+                border-radius: 1rem;
+                max-height: 100%;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .fixed-stats-form-group,
+            .stat-modifiers-form-group {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .flex-row {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .mb-1 {
+                margin-bottom: 1rem;
+            }
+
+            .mb-2 {
+                margin-bottom: 2rem;
+            }
+
+            .ml-1 {
+                margin-left: 1rem;
+            }
+
+            .mt-1 {
+                margin-top: 1rem;
+            }
+
+            .mt-2 {
+                margin-top: 2rem;
+            }
+
+            .p-1 {
+                padding: 1rem;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .input[type="checkbox"]+label {
+                display: inline-block;
+            }
+
+            .justify-space-between {
+                justify-content: space-between;
+            }
+
+            label {
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .generate-npcs {
+                display: flex;
+                justify-content: center;
+                padding-top: 1rem;
+            }
+
+            input[type="button"] {
+                width: 30%;
+                padding: .25rem 1rem;
+                border-radius: 1rem;
+                border-width: 1px;
+                background: #818589;
+                color: #E5E4E2;
+                box-shadow: 0 1px #848884;
+                font-size: 1rem;
+            }
+
+            input[type="button"]:active {
+                background-color: #818589;
+                box-shadow: 0 2px #666;
+                transform: translateY(2px);
+            }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                opacity: 1;
+                margin: 0;
+            }
+
+            input[type="text"],
+            input[type="number"] {
+                text-align: center;
+                width: 4rem;
+                height: 2rem;
+                border: 1px grey solid;
+            }
+
+            #output-pane {
+                display: block;
+                height: 22rem;
+                max-height: 22rem;
+                overflow-y: auto;
+                text-align: center;
+                line-height: 2;
+                font-family: monospace, monospace;
+                letter-spacing: 1px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-container">
+            <header>
+                <h1>Timothy Collinson's<br>Quick NPC Generator</h1>
+            </header>
+
+            <div class="content">
+
+                <div id="input-stat-parameters">
+                    <h3 class="mb-2">Stat Parameters</h3>
+                    <form>
+                        <div id="get-num-npcs" class="text-center">
+                            <!-- Get number of NPCs to generate -->
+                            <div class="form-group">
+                                <label>Number of NPCs: </label>
+                                <input type="number" min="1" max="100" step="1"
+                                    value="1" size="6" id="num-NPCs"
+                                    id="num-NPCs" required>
+                            </div>
+                        </div>
+
+
+                        <div class="p-1">
+                            <h3 class="mt-2 mb-1">Stat Modifiers</h3>
+
+                            <div class="flex-row justify-space-between">
+                                <div class="stat-modifiers-form-group">
+                                    <label for="stat-modifiers-strength">STR
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-strength"
+                                        name="stat-modifiers-strength" min="-12"
+                                        max="12" step="1" value="0"
+                                        maxlength="2">
+                                </div>
+                                <div class="stat-modifiers-form-group">
+                                    <label for="stat-modifiers-dexterity">DEX
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-dexterity"
+                                        name="stat-modifiers-dexterity"
+                                        min="-12" max="12" step="1" size="4"
+                                        value="0">
+                                </div>
+                                <div class="stat-modifiers-form-group">
+                                    <label for="stat-modifiers-endurance">END
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-endurance"
+                                        name="stat-modifiers-endurance"
+                                        min="-12" max="12" step="1" size="4"
+                                        value="0">
+                                </div>
+                                <div class="stat-modifiers-form-group">
+                                    <label for="stat-modifiers-intelligence">INT
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-intelligence"
+                                        name="stat-modifiers-intelligence"
+                                        min="-12" max="12" step="1" size="4"
+                                        value="0">
+                                </div>
+                                <div class="stat-modifiers-form-group">
+                                    <label for="stat-modifiers-education">EDU
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-education"
+                                        name="stat-modifiers-education"
+                                        min="-12" max="12" step="1" size="4"
+                                        value="0">
+                                </div>
+                                <div class="stat-modifiers-form-group">
+                                    <label
+                                        for="stat-modifiers-social-standing">SOC
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-social-standing"
+                                        name="stat-modifiers-social-standing"
+                                        min="-12" max="12" step="1" size="4"
+                                        value="0">
+                                </div>
+                                <div class="stat-modifiers-form-group">
+                                    <label for="stat-modifiers-psi-rating">PSI
+                                    </label>
+                                    <input type="number"
+                                        id="stat-modifiers-psi-rating"
+                                        name="stat-modifiers-psi-rating"
+                                        min="-12" max="12" step="1" size="4"
+                                        value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center mt-2 ">
+                            <label class="flex-row align-center">
+                                <input type="checkbox" id="use-fixed-stats">
+                                <span class="ml-1">Do you wish to use fixed
+                                    stats?</span>
+                            </label>
+                        </div>
+
+                        <div id="fixed-stats" class="p-1" hidden>
+                            <h3 class="mt-1 mb-1">Fixed Stats</h3>
+                            <div class="flex-row justify-space-between"
+                                id="fixed-stats-div">
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-strength">STR
+                                    </label>
+                                    <input type="text" id="fixed-stat-strength"
+                                        name="fixed-stat-strength" size="4"
+                                        value="">
+                                </div>
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-dexterity">DEX
+                                    </label>
+                                    <input type="text" id="fixed-stat-dexterity"
+                                        name="fixed-stat-dexterity" size="4"
+                                        value="">
+                                </div>
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-endurance">END
+                                    </label>
+                                    <input type="text" id="fixed-stat-endurance"
+                                        name="fixed-stat-endurance" size="4"
+                                        value="">
+                                </div>
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-intelligence">INT
+                                    </label>
+                                    <input type="text"
+                                        id="fixed-stat-intelligence"
+                                        name="fixed-stat-intelligence" size="4"
+                                        value="">
+                                </div>
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-education">EDU
+                                    </label>
+                                    <input type="text" id="fixed-stat-education"
+                                        name="fixed-stat-education" size="4"
+                                        value="">
+                                </div>
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-social-standing">SOC
+                                    </label>
+                                    <input type="text"
+                                        id="fixed-stat-social-standing"
+                                        name="fixed-stat-social-standing"
+                                        size="4" value="">
+                                </div>
+                                <div class="fixed-stats-form-group">
+                                    <label for="fixed-stat-psi-rating">PSI
+                                    </label>
+                                    <input type="text"
+                                        id="fixed-stat-psi-rating"
+                                        name="fixed-stat-psi-rating" size="4"
+                                        value="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="generate-npcs">
+                            <input id="gen-npcs" type="button" value="Generate">
+                        </div>
+                    </form>
+                </div>
+
+
+                <div id="output-npc-stats">
+                    <h3 class="mb-2">NPC Stats</h3>
+                    <div id="output-pane">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const hexnums = ["A", "B", "C", "D", "E", "F"];
+
+            const numNPCs = document.getElementById('num-NPCs');
+
+            const statMods = [
+                document.getElementById('stat-modifiers-strength'),
+                document.getElementById('stat-modifiers-dexterity'),
+                document.getElementById('stat-modifiers-endurance'),
+                document.getElementById('stat-modifiers-intelligence'),
+                document.getElementById('stat-modifiers-education'),
+                document.getElementById('stat-modifiers-social-standing'),
+                document.getElementById('stat-modifiers-psi-rating'),
+            ];
+
+            const useFixedStats = document.getElementById('use-fixed-stats');
+            useFixedStats.addEventListener('change', (e) => {
+                fixedStatsDiv.toggleAttribute('hidden');
+            });
+
+            const fixedStatsDiv = document.getElementById('fixed-stats');
+
+            const fixedStats = [
+                document.getElementById('fixed-stat-strength'),
+                document.getElementById('fixed-stat-dexterity'),
+                document.getElementById('fixed-stat-endurance'),
+                document.getElementById('fixed-stat-intelligence'),
+                document.getElementById('fixed-stat-education'),
+                document.getElementById('fixed-stat-social-standing'),
+                document.getElementById('fixed-stat-psi-rating')
+            ]
+
+            const genNPCsBtn = document.getElementById('gen-npcs');
+            genNPCsBtn.addEventListener('click', generateNPCs);
+
+            const outputPane = document.getElementById('output-pane');
+
+            // Add onChange events to stat modifiers
+            for (let x = 0; x < statMods.length; x++) {
+                statMods[0].addEventListener('change', validateStatMod);
+            }
+
+            function rollD6() {
+                return Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+            }
+
+            function validateStatMod(e) {
+                // validate new value is not under the minimum value
+                if (parseInt(e.target.value) < parseInt(e.target.min)) {
+                    alert(`${e.target.value} exceeded minimum value of ${e.target.min}`);
+                    e.target.focus();
+                }
+
+                // validate new value is not over the maximum value
+                if (parseInt(e.target.value) > parseInt(e.target.max)) {
+                    alert(`${e.target.value} exceeded minimum value of ${e.target.max}`);
+                    e.target.focus();
+                }
+            }
+
+
+            function generateNPCs(e) {
+                var stats = [0, 0, 0, 0, 0, 0, 0];
+                
+                outputPane.innerHTML = "";
+
+                for (let idx = 0; idx < parseInt(numNPCs.value); idx++) {
+                    if (useFixedStats.checked) {
+                        for (let x = 0; x < stats.length; x++) {
+                            if (fixedStats[x].value != '') {
+                                stats[x] = parseInt(fixedStats[x].value)
+                            } else {
+                                stats[x] = parseInt(statMods[x].value) + rollD6() + rollD6();
+                            }
+                        }
+                    } else {
+                        for (let x = 0; x < stats.length; x++) {
+                            stats[x] = parseInt(statMods[x].value) + rollD6() + rollD6();
+
+                        }
+                    }
+
+                    var str = "";
+                    for (let x = 0; x < 6; x++) {
+
+                        str += (Math.abs(stats[x]) > 9) ? hexnums[stats[x] % 10] : stats[x];
+                    }
+
+                    str = str + "-" + (Math.abs(stats[stats.length - 1]) > 9 ? hexnums[stats[stats.length - 1] % 10] : stats[stats.length - 1]) + "<br>\n";
+
+                    outputPane.innerHTML += str;
+                }
+            }
+
+
+        </script>
+    </body>
+
+</html>
