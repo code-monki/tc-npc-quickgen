@@ -40,10 +40,11 @@
 
             .content {
                 display: flex;
-                justify-content: space-between;
+                flex-direction: column;
                 width: 50rem;
                 max-width: 50rem;
                 gap: 2rem;
+                align-self: center;
             }
 
             #input-stat-parameters {
@@ -51,14 +52,13 @@
                 padding: 1rem;
                 border: 1px solid grey;
                 border-radius: 1rem;
+                align-self: center;
             }
 
             #output-npc-stats {
-                width: 20%;
+                /*width: 20%;*/
                 padding: 1rem;
-                border: 1px solid grey;
-                border-radius: 1rem;
-                max-height: 100%;
+                margin-top: 2rem;
             }
 
             form {
@@ -78,6 +78,21 @@
                 flex-wrap: wrap;
             }
 
+            .align-items-center {
+                align-items: center;
+            }
+            
+            .align-self-center {
+                align-self: center;
+            }
+            
+            .justify-content-center {
+                justify-content: center;
+            }
+            
+            .justify-self-center {
+                justify-self: center;
+            }
             .mb-1 {
                 margin-bottom: 1rem;
             }
@@ -262,7 +277,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group text-center mt-2 ">
+                        <div class="form-group align-self-center mt-2 mb-2">
                             <label class="flex-row align-center">
                                 <input type="checkbox" id="use-fixed-stats">
                                 <span class="ml-1">Do you wish to use fixed
@@ -277,28 +292,28 @@
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-strength">STR
                                     </label>
-                                    <input type="number" id="fixed-stat-strength"
+                                    <input type="text" id="fixed-stat-strength"
                                         name="fixed-stat-strength" size="4"
                                         value="">
                                 </div>
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-dexterity">DEX
                                     </label>
-                                    <input type="number" id="fixed-stat-dexterity"
+                                    <input type="text" id="fixed-stat-dexterity"
                                         name="fixed-stat-dexterity" size="4"
                                         value="">
                                 </div>
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-endurance">END
                                     </label>
-                                    <input type="number" id="fixed-stat-endurance"
+                                    <input type="text" id="fixed-stat-endurance"
                                         name="fixed-stat-endurance" size="4"
                                         value="">
                                 </div>
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-intelligence">INT
                                     </label>
-                                    <input type="number"
+                                    <input type="text"
                                         id="fixed-stat-intelligence"
                                         name="fixed-stat-intelligence" size="4"
                                         value="">
@@ -306,14 +321,14 @@
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-education">EDU
                                     </label>
-                                    <input type="number" id="fixed-stat-education"
+                                    <input type="text" id="fixed-stat-education"
                                         name="fixed-stat-education" size="4"
                                         value="">
                                 </div>
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-social-standing">SOC
                                     </label>
-                                    <input type="number"
+                                    <input type="text"
                                         id="fixed-stat-social-standing"
                                         name="fixed-stat-social-standing"
                                         size="4" value="">
@@ -321,7 +336,7 @@
                                 <div class="fixed-stats-form-group">
                                     <label for="fixed-stat-psi-rating">PSI
                                     </label>
-                                    <input type="number"
+                                    <input type="text"
                                         id="fixed-stat-psi-rating"
                                         name="fixed-stat-psi-rating" size="4"
                                         value="">
@@ -333,19 +348,20 @@
                             <input id="gen-npcs" type="button" value="Generate">
                         </div>
                     </form>
-                </div>
-
-
-                <div id="output-npc-stats">
-                    <h3 class="mb-2">NPC Stats</h3>
-                    <div id="output-pane">
+                    
+                    <div id="output-npc-stats">
+                        <h3 class="mb-2">NPC Stats</h3>
+                        <div id="output-pane">
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
 
         <script>
-            const hexnums = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "R", "S", "T", "U", "V", "W", "Y", "Z"];
+            const hexnums = ["A", "B", "C", "D", "E", "F"];
 
             const numNPCs = document.getElementById('num-NPCs');
 
